@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="robots" content="noindex,nofollow" />
   <meta http-equiv="Cache-Control" content="no-store" />
-  <title>正在为你跳转到应用商店…</title>
+  <title>Redirecting you to the app store...</title>
 
-  <!-- 如果你想启用 iOS Smart App Banner，取消下面注释并填上 app-id
+  <!-- If you want to enable iOS Smart App Banner, uncomment below and fill in app-id
   <meta name="apple-itunes-app" content="app-id=YOUR_NUMERIC_ID, affiliate-data=, app-argument=">
   -->
 
@@ -38,23 +38,23 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>正在为你跳转到应用商店…</h1>
-    <p>若未自动跳转，请手动点击下方按钮。</p>
+    <h1>Redirecting you to the app store...</h1>
+    <p>If not redirected automatically, please click the button below.</p>
 
     <div class="btns">
-      <a id="btn-ios" class="btn btn-primary" href="#" rel="noopener">前往 App Store</a>
-      <a id="btn-android" class="btn btn-primary" href="#" rel="noopener">前往 Google Play</a>
-      <a id="btn-fallback" class="btn" href="#" rel="noopener">访问下载页（兜底）</a>
+      <a id="btn-ios" class="btn btn-primary" href="#" rel="noopener">Go to App Store</a>
+      <a id="btn-android" class="btn btn-primary" href="#" rel="noopener">Go to Google Play</a>
+      <a id="btn-fallback" class="btn" href="#" rel="noopener">Visit Download Page (Fallback)</a>
     </div>
 
     <div id="inapp-tip" class="card hidden">
-      <b>检测到你正在内置浏览器中（如 Facebook、Instagram、TikTok、WeChat 等）。</b>
-      <p>若按钮无法打开商店，请点击右上角菜单选择 <b>“在浏览器中打开”</b>（Safari 或 Chrome）。</p>
+      <b>Detected that you are in an in-app browser (such as Facebook, Instagram, TikTok, WeChat, etc.).</b>
+      <p>If the button cannot open the store, please tap the menu in the top-right corner and select <b>"Open in Browser"</b> (Safari or Chrome).</p>
       <div class="copy-row">
         <input id="copy-link" class="copy-input" readonly value="">
-        <button id="copy-btn" class="copy-btn" type="button">复制链接</button>
+        <button id="copy-btn" class="copy-btn" type="button">Copy Link</button>
       </div>
-      <p class="muted">复制上方链接到 Safari/Chrome 打开即可。</p>
+      <p class="muted">Copy the link above and open it in Safari/Chrome.</p>
     </div>
 
     <footer class="muted">
@@ -64,16 +64,16 @@
 
   <script>
   (function() {
-    // ========= 配置区：请替换为你的真实信息 =========
-    var IOS_APP_ID        = '1262961340';              // 仅数字，如 1234567890
-    var ANDROID_PACKAGE   = 'com.swtch.swtchcommercial';          // 你的 Android 包名
-    var FALLBACK_URL      = 'https://www.google.com/search?q=swtch+energy+app&oq=swtch+energy+app&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yDQgCEAAYhgMYgAQYigUyDQgDEAAYhgMYgAQYigUyDQgEEAAYhgMYgAQYigUyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQkxMjU1OGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8';  // 你的下载/官网兜底页
+    // ========= Configuration: Replace with your actual information =========
+    var IOS_APP_ID        = '1262961340';              // Numeric only, e.g. 1234567890
+    var ANDROID_PACKAGE   = 'com.swtch.swtchcommercial';          // Your Android package name
+    var FALLBACK_URL      = 'https://www.google.com/search?q=swtch+energy+app&oq=swtch+energy+app&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yDQgCEAAYhgMYgAQYigUyDQgDEAAYhgMYgAQYigUyDQgEEAAYhgMYgAQYigUyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQkxMjU1OGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8';  // Your download/official site fallback page
 
-    // 可选：为统计添加 UTM（会自动拼到商店链接后）
+    // Optional: Add UTM for tracking (will be automatically appended to store links)
     var UTM = 'utm_source=qr&utm_medium=redirect&utm_campaign=landing';
-    // ========= 结束配置 =========
+    // ========= End configuration =========
 
-    // 根据配置拼商店链接
+    // Build store links based on configuration
     var IOS_STORE_URL    = 'https://apps.apple.com/app/id' + encodeURIComponent(IOS_APP_ID);
     var ANDROID_PLAY_URL = 'https://play.google.com/store/apps/details?id=' + encodeURIComponent(ANDROID_PACKAGE);
 
@@ -83,7 +83,7 @@
       FALLBACK_URL     += (FALLBACK_URL.includes('?') ? '&' : '?') + UTM;
     }
 
-    // 元素引用
+    // Element references
     var btnIOS      = document.getElementById('btn-ios');
     var btnAndroid  = document.getElementById('btn-android');
     var btnFallback = document.getElementById('btn-fallback');
@@ -91,19 +91,19 @@
     var copyInput   = document.getElementById('copy-link');
     var copyBtn     = document.getElementById('copy-btn');
 
-    // 设置按钮链接
+    // Set button links
     btnIOS.href      = IOS_STORE_URL;
     btnAndroid.href  = ANDROID_PLAY_URL;
     btnFallback.href = FALLBACK_URL;
 
-    // 平台检测（含 iPadOS 13+ 桌面 UA）
+    // Platform detection (including iPadOS 13+ desktop UA)
     var ua = navigator.userAgent || navigator.vendor || window.opera || '';
     var isAndroid = /Android/i.test(ua);
     var isiOSUA   = /(iPhone|iPad|iPod)/i.test(ua);
     var isIPadOS13Plus = !isiOSUA && navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1;
     var isIOS = isiOSUA || isIPadOS13Plus;
 
-    // 常见内置浏览器/容器检测（北美常见）
+    // Common in-app browser/container detection (North America common)
     var isInApp =
       /MicroMessenger/i.test(ua) ||                        // WeChat
       /FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua) ||           // Facebook/Messenger
@@ -119,42 +119,42 @@
       /Slack/i.test(ua) ||
       /Discord/i.test(ua) ||
       /Gmail|GoogleApp/i.test(ua) ||                       // Gmail/Google App
-      /Outlook|MSAppHost/i.test(ua) ||                     // Outlook/部分微软容器
+      /Outlook|MSAppHost/i.test(ua) ||                     // Outlook/Some Microsoft containers
       /Teams/i.test(ua);
 
-    // 目标链接（按平台）
+    // Target link (by platform)
     var target = isIOS ? IOS_STORE_URL : (isAndroid ? ANDROID_PLAY_URL : FALLBACK_URL);
 
-    // 复制功能
+    // Copy functionality
     copyInput.value = target;
     copyBtn.addEventListener('click', function() {
       copyInput.select();
       copyInput.setSelectionRange(0, 99999);
       try {
         var ok = document.execCommand('copy');
-        copyBtn.textContent = ok ? '已复制' : '复制失败';
+        copyBtn.textContent = ok ? 'Copied' : 'Copy Failed';
       } catch (e) {
-        copyBtn.textContent = '复制失败';
+        copyBtn.textContent = 'Copy Failed';
       }
-      setTimeout(function(){ copyBtn.textContent = '复制链接'; }, 1600);
+      setTimeout(function(){ copyBtn.textContent = 'Copy Link'; }, 1600);
     });
 
-    // 在内置浏览器里：不强跳，展示提示 + 保留按钮（部分容器要求用户手势）
+    // In in-app browsers: don't force redirect, show tip + keep buttons (some containers require user gesture)
     if (isInApp) {
       tip.classList.remove('hidden');
-      // 给主按钮绑定点击（用户手势成功率高）
-      btnIOS.addEventListener('click', function(e){ /* no-op, 让浏览器处理默认跳转 */ });
+      // Bind click to main buttons (user gesture has higher success rate)
+      btnIOS.addEventListener('click', function(e){ /* no-op, let browser handle default redirect */ });
       btnAndroid.addEventListener('click', function(e){ /* no-op */ });
       return;
     }
 
-    // 系统浏览器：轻延迟自动跳转（更像 302），同时保留可见按钮兜底
+    // System browsers: slight delay auto-redirect (more like 302), while keeping visible button as fallback
     setTimeout(function() {
       try { window.location.replace(target); }
-      catch (e) { window.location.href = target; } // 极端兜底
+      catch (e) { window.location.href = target; } // Extreme fallback
     }, 150);
 
-    // 可选：调试开关（URL 加 ?debug=1 显示 UA/判定）
+    // Optional: Debug mode (add ?debug=1 to URL to show UA/detection)
     var params = new URLSearchParams(location.search);
     if (params.get('debug') === '1') {
       var dbg = document.getElementById('debug');
