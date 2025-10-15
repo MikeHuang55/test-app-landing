@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <title>正在为你跳转到应用商店…</title>
+
+  <!-- 如果你想启用 iOS Smart App Banner，取消下面注释并填上 app-id
+  <meta name="apple-itunes-app" content="app-id=YOUR_NUMERIC_ID, affiliate-data=, app-argument=">
+  -->
+
+  <style>
+    :root { --gap: 20px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui,-apple-system,"Segoe UI",Roboto,Arial,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; line-height: 1.6; }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 20px 60px; }
+    h1 { font-size: 22px; margin: 0 0 10px; }
+    p { margin: 0 0 12px; }
+    .btns { display: flex; flex-wrap: wrap; gap: var(--gap); margin: 18px 0 10px; }
+    .btn {
+      flex: 1 1 240px; display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 16px; border-radius: 12px; text-decoration: none; font-weight: 600;
+      border: 1px solid #d0d7de;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { border-color: #000; }
+    .card { border: 1px solid #ffe58f; background: #fff9db; border-radius: 12px; padding: 12px 14px; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; }
+    .muted { color: #666; font-size: 13px; }
+    .copy-row { display: flex; gap: 10px; align-items: center; margin-top: 8px; }
+    .copy-input { width: 100%; padding: 10px; border: 1px solid #d0d7de; border-radius: 8px; font-size: 14px; }
+    .copy-btn { padding: 10px 14px; border: 1px solid #d0d7de; border-radius: 8px; background: #fff; cursor: pointer; }
+    .hidden { display: none !important; }
+    footer { margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>正在为你跳转到应用商店…</h1>
+    <p>若未自动跳转，请手动点击下方按钮。</p>
+
+    <div class="btns">
+      <a id="btn-ios" class="btn btn-primary" href="#" rel="noopener">前往 App Store</a>
+      <a id="btn-android" class="btn btn-primary" href="#" rel="noopener">前往 Google Play</a>
+      <a id="btn-fallback" class="btn" href="#" rel="noopener">访问下载页（兜底）</a>
+    </div>
+
+    <div id="inapp-tip" class="card hidden">
+      <b>检测到你正在内置浏览器中（如 Facebook、Instagram、TikTok、WeChat 等）。</b>
+      <p>若按钮无法打开商店，请点击右上角菜单选择 <b>“在浏览器中打开”</b>（Safari 或 Chrome）。</p>
+      <div class="copy-row">
+        <input id="copy-link" class="copy-input" readonly value="">
+        <button id="copy-btn" class="copy-btn" type="button">复制链接</button>
+      </div>
+      <p class="muted">复制上方链接到 Safari/Chrome 打开即可。</p>
+    </div>
+
+    <footer class="muted">
+      <p id="debug" class="hidden"></p>
+    </footer>
+  </div>
+
+  <script>
+  (function() {
+    // ========= 配置区：请替换为你的真实信息 =========
+    var IOS_APP_ID        = '1262961340';              // 仅数字，如 1234567890
+    var ANDROID_PACKAGE   = 'com.swtch.swtchcommercial';          // 你的 Android 包名
+    var FALLBACK_URL      = 'https://www.google.com/search?q=swtch+energy+app&oq=swtch+energy+app&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yDQgCEAAYhgMYgAQYigUyDQgDEAAYhgMYgAQYigUyDQgEEAAYhgMYgAQYigUyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQkxMjU1OGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8';  // 你的下载/官网兜底页
+
+    // 可选：为统计添加 UTM（会自动拼到商店链接后）
+    var UTM = 'utm_source=qr&utm_medium=redirect&utm_campaign=landing';
+    // ========= 结束配置 =========
+
+    // 根据配置拼商店链接
+    var IOS_STORE_URL    = 'https://apps.apple.com/app/id' + encodeURIComponent(IOS_APP_ID);
+    var ANDROID_PLAY_URL = 'https://play.google.com/store/apps/details?id=' + encodeURIComponent(ANDROID_PACKAGE);
+
+    if (UTM) {
+      IOS_STORE_URL    += (IOS_STORE_URL.includes('?') ? '&' : '?') + UTM;
+      ANDROID_PLAY_URL += (ANDROID_PLAY_URL.includes('?') ? '&' : '?') + UTM;
+      FALLBACK_URL     += (FALLBACK_URL.includes('?') ? '&' : '?') + UTM;
+    }
+
+    // 元素引用
+    var btnIOS      = document.getElementById('btn-ios');
+    var btnAndroid  = document.getElementById('btn-android');
+    var btnFallback = document.getElementById('btn-fallback');
+    var tip         = document.getElementById('inapp-tip');
+    var copyInput   = document.getElementById('copy-link');
+    var copyBtn     = document.getElementById('copy-btn');
+
+    // 设置按钮链接
+    btnIOS.href      = IOS_STORE_URL;
+    btnAndroid.href  = ANDROID_PLAY_URL;
+    btnFallback.href = FALLBACK_URL;
+
+    // 平台检测（含 iPadOS 13+ 桌面 UA）
+    var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+    var isAndroid = /Android/i.test(ua);
+    var isiOSUA   = /(iPhone|iPad|iPod)/i.test(ua);
+    var isIPadOS13Plus = !isiOSUA && navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1;
+    var isIOS = isiOSUA || isIPadOS13Plus;
+
+    // 常见内置浏览器/容器检测（北美常见）
+    var isInApp =
+      /MicroMessenger/i.test(ua) ||                        // WeChat
+      /FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(ua) ||           // Facebook/Messenger
+      /Instagram/i.test(ua) ||
+      /TikTok|TTWebView|musical\.ly|Bytedance/i.test(ua) ||
+      /Snapchat|Snap|SCSDK/i.test(ua) ||
+      /\bTwitter\b|X-Twitter/i.test(ua) ||
+      /Reddit/i.test(ua) ||
+      /Pinterest/i.test(ua) ||
+      /LinkedInApp|LinkedIn/i.test(ua) ||
+      /WhatsApp/i.test(ua) ||
+      /Telegram/i.test(ua) ||
+      /Slack/i.test(ua) ||
+      /Discord/i.test(ua) ||
+      /Gmail|GoogleApp/i.test(ua) ||                       // Gmail/Google App
+      /Outlook|MSAppHost/i.test(ua) ||                     // Outlook/部分微软容器
+      /Teams/i.test(ua);
+
+    // 目标链接（按平台）
+    var target = isIOS ? IOS_STORE_URL : (isAndroid ? ANDROID_PLAY_URL : FALLBACK_URL);
+
+    // 复制功能
+    copyInput.value = target;
+    copyBtn.addEventListener('click', function() {
+      copyInput.select();
+      copyInput.setSelectionRange(0, 99999);
+      try {
+        var ok = document.execCommand('copy');
+        copyBtn.textContent = ok ? '已复制' : '复制失败';
+      } catch (e) {
+        copyBtn.textContent = '复制失败';
+      }
+      setTimeout(function(){ copyBtn.textContent = '复制链接'; }, 1600);
+    });
+
+    // 在内置浏览器里：不强跳，展示提示 + 保留按钮（部分容器要求用户手势）
+    if (isInApp) {
+      tip.classList.remove('hidden');
+      // 给主按钮绑定点击（用户手势成功率高）
+      btnIOS.addEventListener('click', function(e){ /* no-op, 让浏览器处理默认跳转 */ });
+      btnAndroid.addEventListener('click', function(e){ /* no-op */ });
+      return;
+    }
+
+    // 系统浏览器：轻延迟自动跳转（更像 302），同时保留可见按钮兜底
+    setTimeout(function() {
+      try { window.location.replace(target); }
+      catch (e) { window.location.href = target; } // 极端兜底
+    }, 150);
+
+    // 可选：调试开关（URL 加 ?debug=1 显示 UA/判定）
+    var params = new URLSearchParams(location.search);
+    if (params.get('debug') === '1') {
+      var dbg = document.getElementById('debug');
+      dbg.classList.remove('hidden');
+      dbg.textContent = 'UA=' + ua + ' | iOS=' + isIOS + ' | Android=' + isAndroid + ' | InApp=' + isInApp + ' | target=' + target;
+    }
+  })();
+  </script>
+</body>
+</html>
